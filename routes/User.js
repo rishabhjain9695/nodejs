@@ -1,7 +1,7 @@
 const express = require("express");
 const UserController = require("../controller/User");
-const jwt=require("jsonwebtoken");
-require('dotenv').config();
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 const passport = require("passport");
 const userRouter = express.Router();
 userRouter
@@ -17,9 +17,18 @@ userRouter
         // If the authentication failed, send the error message to the frontend.
         return res.status(401).json({ message: info.message });
       }
-      const  token = jwt.sign({ username:user.username,email:user.email },process.env.SECRET_KEY);
-    console.log(token,"token secretkey");
-    res.json(token);
+      const token = jwt.sign(
+        { username: user.username, email: user.email },
+        process.env.SECRET_KEY
+      );
+      console.log(token, "token secretkey");
+      res
+        .cookie("jwt", token, {
+          expires: new Date(Date.now() + 3600),
+          httpOnly: true,
+        })
+        .status(201)
+        .json(token);
     })(req, res, next);
   });
 exports.routess = userRouter;

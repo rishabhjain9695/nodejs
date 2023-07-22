@@ -1,6 +1,7 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const User = require("../model/User").User;
+const jwt=require("jsonwebtoken");
 exports.intializePassport = () => {
   passport.use(
     "local",
@@ -15,7 +16,8 @@ exports.intializePassport = () => {
         if (user.password !== password) {
           return done(null, false, { message: "Incorrect password." });
         }
-        return done(null, user);
+        
+        return done(null,user);//token willl bw
       } catch (error) {
         console.log(error);
         return done(null, error);
@@ -29,6 +31,7 @@ exports.intializePassport = () => {
 
   passport.deserializeUser(async (id, done) => {
     const user = await User.findOne({ id });
+    console.log("Deserializer",user);
     done(null, user);
   });
 };

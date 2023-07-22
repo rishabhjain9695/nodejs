@@ -3,7 +3,8 @@ const passport = require("passport");
 const cors = require("cors");
 const session = require("express-session");
 const server = express();
-const intializePassport = require("./intializePassport/intitializepassport").intializePassport;
+const intializePassport =
+  require("./intializePassport/intitializepassport").intializePassport;
 const mongoose = require("mongoose");
 const router = require("./routes/User").routess;
 const connectMongoDb = (async () => {

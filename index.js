@@ -3,8 +3,7 @@ const passport = require("passport");
 const cors = require("cors");
 const session = require("express-session");
 const server = express();
-const intializePassport =
-  require("./intializePassport/intitializepassport").intializePassport;
+const intializePassport = require("./intializePassport/intitializepassport").intializePassport;
 const mongoose = require("mongoose");
 const router = require("./routes/User").routess;
 const connectMongoDb = (async () => {
@@ -31,7 +30,6 @@ server.use(passport.initialize());
 // init passport on every route call.
 server.use(passport.session());
 // allow passport to use "express-session".
-server.use("/auth", router);
 server.use("/auth", router);
 server.listen(8282, () => {
   console.log("server started");

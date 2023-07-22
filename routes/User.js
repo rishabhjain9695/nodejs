@@ -1,10 +1,22 @@
 const express = require("express");
 const UserController = require("../controller/User");
-const passport=require("passport")
+const passport = require("passport");
 const userRouter = express.Router();
 userRouter
   .post("/signUp", UserController.createUser)
-  .get(
-    "/login",
-    passport.authenticate("local",{ failureRedirect: '/login', failureMessage: true }),UserController.loginUser);
+  .post("/login", (req, res, next) => {
+    passport.authenticate("local", (err, user, info) => {
+      if (err) {
+        // Handle any other unexpected errors
+        return res.status(500).json({ message: "An error occurred." });
+      }
+
+      if (!user) {
+        // If the authentication failed, send the error message to the frontend.
+        return res.status(401).json({ message: info.message });
+      }
+      console.log("req.usee", user);
+      res.json(user);
+    })(req, res, next);
+  });
 exports.routess = userRouter;

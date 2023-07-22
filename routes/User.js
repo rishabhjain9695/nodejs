@@ -18,7 +18,7 @@ userRouter
         return res.status(401).json({ message: info.message });
       }
       const token = jwt.sign(
-        { username: user.username, email: user.email },
+        { email: user.email, password: user.password },
         process.env.SECRET_KEY
       );
       console.log(token, "token secretkey");
